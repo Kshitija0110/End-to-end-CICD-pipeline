@@ -19,9 +19,11 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                //bat 'docker build -t %DOCKER_IMAGE% .'
-                bat 'docker build --no-cache -t my-flask-app .'
-                bat 'docker system prune -a --volumes'
+                // Use --no-cache option for the build
+              bat 'docker build --no-cache -t my-flask-app .'
+        
+             // Use -f or --force flag to bypass the confirmation prompt
+              bat 'docker system prune -a --volumes -f'
             }
         }
 
