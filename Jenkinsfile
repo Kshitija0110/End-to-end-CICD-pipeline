@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'windows' // Ensures the pipeline runs on a Windows agent
-    }
+    agent any
 
     environment {
         DOCKER_IMAGE = 'my-flask-app'
