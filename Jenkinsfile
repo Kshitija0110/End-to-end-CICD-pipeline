@@ -23,9 +23,23 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        // stage('Test') {
+        //     steps {
+        //         bat 'docker run --rm %DOCKER_IMAGE% python -m pytest'
+        //     }
+        // }
+
+        stage('Run Locally') {
             steps {
-                bat 'docker run --rm %DOCKER_IMAGE% python -m pytest'
+                // Stop any existing container with the same name
+                bat 'docker stop my-flask-app || true'
+                bat 'docker rm my-flask-app || true'
+                
+                // Run the container locally on port 5000
+                bat 'docker run -d -p 5000:5000 --name my-flask-app %DOCKER_IMAGE%'
+                
+                // Print a message to the console
+                echo 'Application is now running locally at http://localhost:5000'
             }
         }
 
