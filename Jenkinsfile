@@ -21,6 +21,7 @@ pipeline {
             steps {
                 //bat 'docker build -t %DOCKER_IMAGE% .'
                 bat 'docker build --no-cache -t my-flask-app .'
+                bat 'docker system prune -a --volumes'
             }
         }
 
