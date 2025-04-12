@@ -47,6 +47,42 @@ pipeline {
             }
         }
 
+        stage('Push to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                    bat 'docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%'
+                    bat 'docker tag %DOCKER_IMAGE% %DOCKER_HUB_REPO%:latest'
+                    bat 'docker push %DOCKER_HUB_REPO%:latest'
+                }
+            }
+        }
+
+        stage('Deploy to Minikube') {
+            steps {
+                // Make sure Minikube is running
+                bat 'minikube status || minikube start'
+                
+                // Set Docker environment to use Minikube's Docker daemon
+                bat 'minikube -p minikube docker-env | Invoke-Expression'
+                
+                // Apply the Kubernetes deployment
+                bat 'kubectl apply -f deployment.yml'
+                
+                // Wait for deployment to complete
+                bat 'kubectl rollout status deployment/flask-app'
+                
+                // Display information about the deployment
+                bat 'kubectl get deployments'
+                bat 'kubectl get services'
+                bat 'kubectl get pods'
+                
+                // Create URL to access the application
+                bat 'minikube service flask-app-service --url'
+                
+                echo 'Application is now deployed to Minikube Kubernetes'
+            }
+        }
+
         // stage('Push to ECR') {
         //     steps {
         //         withCredentials([aws(credentialsId: 'aws-credentials', region: env.AWS_REGION)]) {
