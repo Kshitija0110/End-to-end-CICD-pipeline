@@ -24,7 +24,7 @@ pipeline {
               bat 'docker build --no-cache -t my-flask-app .'
         
              // Use -f or --force flag to bypass the confirmation prompt
-               bat 'docker system prune -a --volumes -f'
+             //  bat 'docker system prune -a --volumes -f'
             }
         }
 
@@ -43,6 +43,10 @@ pipeline {
         bat 'echo COPY . . >> Dockerfile.test'
         bat 'echo EXPOSE 5000 >> Dockerfile.test'
         bat 'echo CMD ["python", "app1.py"] >> Dockerfile.test'
+
+        //remove if exists
+        bat 'docker stop my-flask-app-test || true'
+        bat 'docker rm my-flask-app-test || true'
         
         // Build test image
         bat 'docker build -f Dockerfile.test -t my-flask-app-test .'
