@@ -36,13 +36,13 @@ pipeline {
         stage('Test') {
     steps {
         // Update Dockerfile CMD temporarily for testing
-       // bat 'echo FROM python:3.9-slim > Dockerfile.test'
+        bat 'echo FROM python:3.9-slim > Dockerfile.test'
         bat 'echo WORKDIR /app >> Dockerfile.test'
         bat 'echo COPY requirements.txt . >> Dockerfile.test'
         bat 'echo RUN pip install --no-cache-dir -r requirements.txt >> Dockerfile.test'
         bat 'echo COPY . . >> Dockerfile.test'
         bat 'echo EXPOSE 5000 >> Dockerfile.test'
-        bat 'echo CMD ["python", "app1.py"] >> Dockerfile.test'
+        bat 'echo CMD ["python", "app.py"] >> Dockerfile.test'
 
         //remove if exists
         //bat 'docker stop my-flask-app-test || true'
@@ -52,7 +52,7 @@ pipeline {
         bat 'docker build -f Dockerfile.test -t my-flask-app-test .'
 
         //remove if exists
-        bat 'docker rm my-flask-app-test || true'
+       // bat 'docker rm my-flask-app-test || true'
         
         // Run the container in detached mode
         bat 'docker run -d -p 5001:5000 --name flask-app-test my-flask-app-test'
