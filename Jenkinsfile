@@ -24,7 +24,7 @@ pipeline {
               bat 'docker build --no-cache -t my-flask-app .'
         
              // Use -f or --force flag to bypass the confirmation prompt
-              bat 'docker system prune -a --volumes -f'
+              // bat 'docker system prune -a --volumes -f'
             }
         }
 
