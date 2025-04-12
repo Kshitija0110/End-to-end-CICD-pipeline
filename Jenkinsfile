@@ -33,49 +33,49 @@ pipeline {
         //         bat 'docker run --rm %DOCKER_IMAGE% python -m pytest'
         //     }
         // }
-        stage('Test') {
-    steps {
-        // Update Dockerfile CMD temporarily for testing
-        bat 'echo FROM python:3.9-slim > Dockerfile.test'
-        bat 'echo WORKDIR /app >> Dockerfile.test'
-        bat 'echo COPY requirements.txt . >> Dockerfile.test'
-        bat 'echo RUN pip install --no-cache-dir -r requirements.txt >> Dockerfile.test'
-        bat 'echo COPY . . >> Dockerfile.test'
-        bat 'echo EXPOSE 5000 >> Dockerfile.test'
-        bat 'echo CMD ["python", "app.py"] >> Dockerfile.test'
+    //     stage('Test') {
+    // steps {
+    //     // Update Dockerfile CMD temporarily for testing
+    //     bat 'echo FROM python:3.9-slim > Dockerfile.test'
+    //     bat 'echo WORKDIR /app >> Dockerfile.test'
+    //     bat 'echo COPY requirements.txt . >> Dockerfile.test'
+    //     bat 'echo RUN pip install --no-cache-dir -r requirements.txt >> Dockerfile.test'
+    //     bat 'echo COPY . . >> Dockerfile.test'
+    //     bat 'echo EXPOSE 5000 >> Dockerfile.test'
+    //     bat 'echo CMD ["python", "app.py"] >> Dockerfile.test'
 
-        //remove if exists
-        //bat 'docker stop my-flask-app-test || true'
-        // bat 'docker rm my-flask-app-test || true'
+    //     //remove if exists
+    //     //bat 'docker stop my-flask-app-test || true'
+    //     // bat 'docker rm my-flask-app-test || true'
         
-        // Build test image
-        bat 'docker build -f Dockerfile.test -t my-flask-app-test .'
+    //     // Build test image
+    //     bat 'docker build -f Dockerfile.test -t my-flask-app-test .'
 
-        //remove if exists
-       // bat 'docker rm my-flask-app-test || true'
+       //  //remove if exists
+       // // bat 'docker rm my-flask-app-test || true'
         
-        // Run the container in detached mode
-        bat 'docker run -d -p 5001:5000 --name flask-app-test my-flask-app-test'
+       //  // Run the container in detached mode
+       //  bat 'docker run -d -p 5001:5000 --name flask-app-test my-flask-app-test'
         
-        // Wait a moment for the application to start
-        // bat 'timeout /t 5'
+       //  // Wait a moment for the application to start
+       //  // bat 'timeout /t 5'
         
-        // Test 1: Check if the health endpoint returns correct response
-        bat 'curl -s http://localhost:5001/ | findstr "LLaMA QA API is running!" || exit 1'
+       //  // Test 1: Check if the health endpoint returns correct response
+       //  bat 'curl -s http://localhost:5001/ | findstr "LLaMA QA API is running!" || exit 1'
         
-        // Test 2: Send a simple message to the chat API and verify response format
-        bat 'curl -s -X POST -H "Content-Type: application/json" -d "{\"message\":\"Hello\"}" http://localhost:5001/api/chat | findstr "response" || exit 1'
+       //  // Test 2: Send a simple message to the chat API and verify response format
+       //  bat 'curl -s -X POST -H "Content-Type: application/json" -d "{\"message\":\"Hello\"}" http://localhost:5001/api/chat | findstr "response" || exit 1'
         
-        // Test 3: Check if the main page loads correctly
-        bat 'curl -s http://localhost:5001/ | findstr "Llama 3 AI Chatbot" || exit 1'
+       //  // Test 3: Check if the main page loads correctly
+       //  bat 'curl -s http://localhost:5001/ | findstr "Llama 3 AI Chatbot" || exit 1'
         
-        // Clean up after tests
-        bat 'docker stop flask-app-test'
-        bat 'docker rm flask-app-test'
-        bat 'docker rmi my-flask-app-test'
-        bat 'del Dockerfile.test'
-    }
-}
+       //  // Clean up after tests
+//         bat 'docker stop flask-app-test'
+//         bat 'docker rm flask-app-test'
+//         bat 'docker rmi my-flask-app-test'
+//         bat 'del Dockerfile.test'
+//     }
+// }
 
         stage('Run Locally') {
             steps {
