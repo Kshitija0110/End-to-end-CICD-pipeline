@@ -62,11 +62,20 @@ pipeline {
             steps {
                 // Make sure Minikube is running
                //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" status || "C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
-                 bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" -p minikube docker-env'
-                bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
-                bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" status'
+                // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" -p minikube docker-env'
+                // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
+                // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" status'
                 // Set Docker environment to use Minikube's Docker daemon
                 // bat 'C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe -p minikube docker-env | Invoke-Expression'
+
+                // Delete existing minikube cluster to avoid profile issues
+        bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
+        
+        // Start minikube with explicit docker driver
+        bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start --driver=docker'
+        
+        // Set Docker environment to use Minikube's Docker daemon
+        bat 'FOR /f "tokens=*" %i IN (\'"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" -p minikube docker-env --shell cmd\') DO @%i'
                 
                 // Apply the Kubernetes deployment
                 bat 'kubectl config use-context minikube'
