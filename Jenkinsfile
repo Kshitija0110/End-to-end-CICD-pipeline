@@ -61,10 +61,10 @@ pipeline {
         stage('Deploy to Minikube') {
             steps {
                 // Make sure Minikube is running
-                bat 'minikube status || minikube start'
+                bat 'C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe minikube status || C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe start'
                 
                 // Set Docker environment to use Minikube's Docker daemon
-                bat 'minikube -p minikube docker-env | Invoke-Expression'
+                bat 'C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe -p minikube docker-env | Invoke-Expression'
                 
                 // Apply the Kubernetes deployment
                 bat 'kubectl apply -f deployment.yml'
@@ -78,7 +78,7 @@ pipeline {
                 bat 'kubectl get pods'
                 
                 // Create URL to access the application
-                bat 'minikube service flask-app-service --url'
+                bat 'C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe service flask-app-service --url'
                 
                 echo 'Application is now deployed to Minikube Kubernetes'
             }
