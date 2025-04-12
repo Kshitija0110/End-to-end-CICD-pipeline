@@ -36,7 +36,7 @@ pipeline {
         stage('Test') {
     steps {
         // Update Dockerfile CMD temporarily for testing
-        bat 'echo FROM python:3.9-slim > Dockerfile.test'
+       // bat 'echo FROM python:3.9-slim > Dockerfile.test'
         bat 'echo WORKDIR /app >> Dockerfile.test'
         bat 'echo COPY requirements.txt . >> Dockerfile.test'
         bat 'echo RUN pip install --no-cache-dir -r requirements.txt >> Dockerfile.test'
