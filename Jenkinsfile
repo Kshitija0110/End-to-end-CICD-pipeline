@@ -36,8 +36,8 @@ pipeline {
         stage('Run Locally') {
             steps {
                 // Stop any existing container with the same name
-                bat 'docker stop my-flask-app || true'
-                bat 'docker rm my-flask-app || true'
+                // bat 'docker stop my-flask-app || true'
+                // bat 'docker rm my-flask-app || true'
                 
                 // Run the container locally on port 5000
                 bat 'docker run -d -p 5000:5000 --name my-flask-app %DOCKER_IMAGE%'
