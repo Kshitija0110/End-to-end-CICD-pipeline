@@ -51,7 +51,7 @@ pipeline {
         bat 'docker run -d -p 5001:5000 --name flask-app-test my-flask-app-test'
         
         // Wait a moment for the application to start
-        bat 'timeout /t 5'
+        // bat 'timeout /t 5'
         
         // Test 1: Check if the health endpoint returns correct response
         bat 'curl -s http://localhost:5001/health | findstr "LLaMA QA API is running!" || exit 1'
