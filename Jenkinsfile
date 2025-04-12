@@ -45,8 +45,8 @@ pipeline {
         bat 'echo CMD ["python", "app1.py"] >> Dockerfile.test'
 
         //remove if exists
-        bat 'docker stop my-flask-app-test || true'
-        bat 'docker rm my-flask-app-test || true'
+        //bat 'docker stop my-flask-app-test || true'
+        // bat 'docker rm my-flask-app-test || true'
         
         // Build test image
         bat 'docker build -f Dockerfile.test -t my-flask-app-test .'
@@ -58,7 +58,7 @@ pipeline {
         // bat 'timeout /t 5'
         
         // Test 1: Check if the health endpoint returns correct response
-        bat 'curl -s http://localhost:5001/health | findstr "LLaMA QA API is running!" || exit 1'
+        bat 'curl -s http://localhost:5001/ | findstr "LLaMA QA API is running!" || exit 1'
         
         // Test 2: Send a simple message to the chat API and verify response format
         bat 'curl -s -X POST -H "Content-Type: application/json" -d "{\"message\":\"Hello\"}" http://localhost:5001/api/chat | findstr "response" || exit 1'
