@@ -23,7 +23,7 @@ pipeline {
               bat 'docker build --no-cache -t my-flask-app .'
         
              // Use -f or --force flag to bypass the confirmation prompt
-              //bat 'docker system prune -a --volumes -f'
+              bat 'docker system prune -a --volumes -f'
             }
         }
 
@@ -36,8 +36,8 @@ pipeline {
         stage('Run Locally') {
             steps {
                 // Stop any existing container with the same name
-                // bat 'docker stop my-flask-app || true'
-                // bat 'docker rm my-flask-app || true'
+                 bat 'docker stop my-flask-app || true'
+                 bat 'docker rm my-flask-app || true'
                 
                 // Run the container locally on port 5000
                 bat 'docker run -d -p 5000:5000 --name my-flask-app %DOCKER_IMAGE%'
