@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'my-flask-app'
+        DOCKER_HUB_REPO = 'kshitu/ci_cd-pipeline'
         //AWS_ECR_REPO = 'your-aws-account-id.dkr.ecr.your-region.amazonaws.com/my-flask-app'
         //AWS_REGION = 'your-region'
         DOCKER_HOST = 'npipe:////./pipe/docker_engine'
