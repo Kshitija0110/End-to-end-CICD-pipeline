@@ -50,6 +50,9 @@ pipeline {
         
         // Build test image
         bat 'docker build -f Dockerfile.test -t my-flask-app-test .'
+
+        //remove if exists
+        bat 'docker rm my-flask-app-test || true'
         
         // Run the container in detached mode
         bat 'docker run -d -p 5001:5000 --name flask-app-test my-flask-app-test'
