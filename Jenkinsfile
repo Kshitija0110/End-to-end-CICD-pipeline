@@ -61,7 +61,7 @@ pipeline {
         stage('Deploy to Minikube') {
             steps {
                 // Make sure Minikube is running
-                // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" status || "C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
+                 bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" status || "C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
                 
                 // Set Docker environment to use Minikube's Docker daemon
                 // bat 'C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe -p minikube docker-env | Invoke-Expression'
