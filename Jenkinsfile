@@ -67,6 +67,7 @@ pipeline {
                 // bat 'C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe -p minikube docker-env | Invoke-Expression'
                 
                 // Apply the Kubernetes deployment
+                bat 'kubectl config use-context minikube'
                 bat 'kubectl apply -f deployment.yml'
                 
                 // Wait for deployment to complete
