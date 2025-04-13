@@ -116,13 +116,15 @@ pipeline {
         
         // Start minikube with explicit docker driver
        //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start --driver=docker'
+       bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
+                
         
         // Set Docker environment to use Minikube's Docker daemon
         // bat 'FOR /f "tokens=*" %i IN (\'"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" -p minikube docker-env --shell cmd\') DO @%i'
                 
                 // Apply the Kubernetes deployment
-              //  bat 'kubectl config use-context minikube'
-              //  bat 'kubectl apply -f deployment.yml'
+                bat 'kubectl config use-context minikube'
+                bat 'kubectl apply -f deployment.yml'
                 
                 // Wait for deployment to complete
               //  bat 'kubectl rollout status deployment/flask-app'
