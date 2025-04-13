@@ -80,8 +80,8 @@ pipeline {
         stage('Run Locally') {
             steps {
                 // Stop any existing container with the same name
-              //   bat 'docker stop my-flask-app || true'
-              //  bat 'docker rm my-flask-app || true'
+                bat 'docker stop my-flask-app || true'
+               bat 'docker rm my-flask-app || true'
                 
                 // Run the container locally on port 5000
                 bat 'docker run -d -p 5000:5000 --name my-flask-app %DOCKER_IMAGE%'
@@ -115,7 +115,7 @@ pipeline {
       //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
         
         // Start minikube with explicit docker driver
-         bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start --driver=docker'
+       //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start --driver=docker'
         
         // Set Docker environment to use Minikube's Docker daemon
         // bat 'FOR /f "tokens=*" %i IN (\'"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" -p minikube docker-env --shell cmd\') DO @%i'
