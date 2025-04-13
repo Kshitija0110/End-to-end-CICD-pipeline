@@ -112,7 +112,7 @@ pipeline {
                 // bat 'C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe -p minikube docker-env | Invoke-Expression'
 
                 // Delete existing minikube cluster to avoid profile issues
-      //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
+       bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
         
         // Start minikube with explicit docker driver
        //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start --driver=docker'
@@ -129,7 +129,7 @@ pipeline {
                 bat 'kubectl apply -f deployment.yml'
                 
                 // Wait for deployment to complete
-                bat 'kubectl rollout status deployment/flask-app-service'
+                bat 'kubectl rollout status deployment/flask-app'
                 
                 // Display information about the deployment
              //   bat 'kubectl get deployments'
