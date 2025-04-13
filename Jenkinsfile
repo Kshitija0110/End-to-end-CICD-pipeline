@@ -128,7 +128,7 @@ pipeline {
                 bat 'kubectl apply -f deployment.yml'
                 
                 // Wait for deployment to complete
-              //  bat 'kubectl rollout status deployment/flask-app'
+                bat 'kubectl rollout status deployment/flask-app-service'
                 
                 // Display information about the deployment
              //   bat 'kubectl get deployments'
