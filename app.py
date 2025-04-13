@@ -38,7 +38,7 @@ def generate_answer(question: str) -> str:
 
 @app.route('/')
 def hello():
-    return render_template('index1.html')
+    return render_template('index.html')
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
