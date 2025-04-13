@@ -118,7 +118,7 @@ pipeline {
        //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start --driver=docker'
     
         // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
-       bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
+      // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
                 
         
         // Set Docker environment to use Minikube's Docker daemon
@@ -130,7 +130,7 @@ pipeline {
                 
                 // Wait for deployment to complete
                // bat 'kubectl rollout status deployment/flask-app'
-                bat 'timeout /t 50'
+               
                 // Display information about the deployment
              //   bat 'kubectl get deployments'
               //  bat 'kubectl get services'
