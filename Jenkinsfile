@@ -128,9 +128,9 @@ pipeline {
               //  bat 'kubectl rollout status deployment/flask-app'
                 
                 // Display information about the deployment
-                bat 'kubectl get deployments'
-                bat 'kubectl get services'
-                bat 'kubectl get pods'
+             //   bat 'kubectl get deployments'
+              //  bat 'kubectl get services'
+              //  bat 'kubectl get pods'
                 
                 // Create URL to access the application
                 bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" service flask-app-service'
