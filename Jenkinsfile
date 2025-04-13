@@ -116,7 +116,8 @@ pipeline {
         
         // Start minikube with explicit docker driver
        //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start --driver=docker'
-                bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
+    
+        // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
        bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
                 
         
