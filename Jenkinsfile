@@ -80,8 +80,8 @@ pipeline {
         stage('Run Locally') {
             steps {
                 // Stop any existing container with the same name
-              //   bat 'docker stop my-flask-app || true'
-              //  bat 'docker rm my-flask-app || true'
+                bat 'docker stop my-flask-app || true'
+               bat 'docker rm my-flask-app || true'
                 
                 // Run the container locally on port 5000
                 bat 'docker run -d -p 5000:5000 --name my-flask-app %DOCKER_IMAGE%'
@@ -112,10 +112,14 @@ pipeline {
                 // bat 'C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe -p minikube docker-env | Invoke-Expression'
 
                 // Delete existing minikube cluster to avoid profile issues
-      //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
+      // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
         
         // Start minikube with explicit docker driver
-         bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start --driver=docker'
+       //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start --driver=docker'
+    
+        // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
+       bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
+                
         
         // Set Docker environment to use Minikube's Docker daemon
         // bat 'FOR /f "tokens=*" %i IN (\'"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" -p minikube docker-env --shell cmd\') DO @%i'
@@ -125,38 +129,19 @@ pipeline {
                 bat 'kubectl apply -f deployment.yml'
                 
                 // Wait for deployment to complete
-                bat 'kubectl rollout status deployment/flask-app'
-                
+               // bat 'kubectl rollout status deployment/flask-app'
+               
                 // Display information about the deployment
-                bat 'kubectl get deployments'
-                bat 'kubectl get services'
-                bat 'kubectl get pods'
+             //   bat 'kubectl get deployments'
+              //  bat 'kubectl get services'
+              //  bat 'kubectl get pods'
                 
                 // Create URL to access the application
-                bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" service flask-app-service --url'
+                bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" service flask-app-service'
                 
                 echo 'Application is now deployed to Minikube Kubernetes'
             }
         }
 
-        // stage('Push to ECR') {
-        //     steps {
-        //         withCredentials([aws(credentialsId: 'aws-credentials', region: env.AWS_REGION)]) {
-        //             bat 'aws ecr get-login-password --region %AWS_REGION% | docker login --username AWS --password-stdin %AWS_ECR_REPO%'
-        //             bat 'docker tag %DOCKER_IMAGE% %AWS_ECR_REPO%:latest'
-        //             bat 'docker push %AWS_ECR_REPO%:latest'
-        //         }
-        //     }
-        // }
-
-        // stage('Deploy to EC2') {
-        //     steps {
-        //         withCredentials([aws(credentialsId: 'aws-credentials', region: env.AWS_REGION)]) {
-        //             // Deploy to EC2 using AWS CLI
-        //             bat 'aws ec2 describe-instances --filters "Name=tag:Name,Values=flask-app-server" --query "Reservations[].Instances[].InstanceId" --output text > instance.txt'
-        //             bat 'aws ssm send-command --document-name "AWS-RunShellScript" --targets "Key=instanceids,Values=$(type instance.txt)" --parameters "commands=[\"docker pull %AWS_ECR_REPO%:latest\", \"docker stop flask-app || true\", \"docker rm flask-app || true\", \"docker run -d -p 80:5000 --name flask-app %AWS_ECR_REPO%:latest\"]"'
-        //         }
-        //     }
-        // }
     }
 }
