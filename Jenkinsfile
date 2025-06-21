@@ -4,8 +4,6 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'my-flask-app'
         DOCKER_HUB_REPO = 'kshitu/ci_cd-pipeline'
-        //AWS_ECR_REPO = 'your-aws-account-id.dkr.ecr.your-region.amazonaws.com/my-flask-app'
-        //AWS_REGION = 'your-region'
         DOCKER_HOST = 'npipe:////./pipe/docker_engine'
     }
 
@@ -20,11 +18,9 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                // Use --no-cache option for the build
-              bat 'docker build --no-cache -t my-flask-app .'
+                bat 'docker build --no-cache -t my-flask-app .'
         
-             // Use -f or --force flag to bypass the confirmation prompt
-            //   bat 'docker system prune -a --volumes -f'
+            
             }
         }
 
@@ -103,40 +99,12 @@ pipeline {
 
         stage('Deploy to Minikube') {
             steps {
-                // Make sure Minikube is running
-               //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" status || "C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
-                // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" -p minikube docker-env'
-                // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
-                // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" status'
-                // Set Docker environment to use Minikube's Docker daemon
-                // bat 'C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe -p minikube docker-env | Invoke-Expression'
-
-                // Delete existing minikube cluster to avoid profile issues
-      // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
-        
-        // Start minikube with explicit docker driver
-       //  bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start --driver=docker'
-    
-        // bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" delete'
+                
        bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" start'
-                
-        
-        // Set Docker environment to use Minikube's Docker daemon
-        // bat 'FOR /f "tokens=*" %i IN (\'"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" -p minikube docker-env --shell cmd\') DO @%i'
-                
-                // Apply the Kubernetes deployment
+            
                 bat 'kubectl config use-context minikube'
                 bat 'kubectl apply -f deployment.yml'
                 
-                // Wait for deployment to complete
-               // bat 'kubectl rollout status deployment/flask-app'
-               
-                // Display information about the deployment
-             //   bat 'kubectl get deployments'
-              //  bat 'kubectl get services'
-              //  bat 'kubectl get pods'
-                
-                // Create URL to access the application
                 bat '"C:\\Program Files\\Kubernetes\\Minikube\\minikube.exe" service flask-app-service'
                 
                 echo 'Application is now deployed to Minikube Kubernetes'
