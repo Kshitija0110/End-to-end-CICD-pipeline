@@ -1,0 +1,91 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  DOCKER_IMAGE: my-flask-app
+  DOCKER_HUB_REPO: kshitu/ci_cd-pipeline
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: List files in repository
+      run: |
+        echo "Listing files in the repo:"
+        ls -la
+        find . -type f -name "*.py" -o -name "*.txt" -o -name "*.yml" -o -name "Dockerfile"
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker Image
+      run: |
+        docker build --no-cache -t ${{ env.DOCKER_IMAGE }} .
+
+    - name: Run Application Locally
+      run: |
+        # Stop any existing container with the same name
+        docker stop ${{ env.DOCKER_IMAGE }} || true
+        docker rm ${{ env.DOCKER_IMAGE }} || true
+        
+        # Run the container locally on port 5000
+        docker run -d -p 5000:5000 --name ${{ env.DOCKER_IMAGE }} ${{ env.DOCKER_IMAGE }}
+        
+        echo "Application is now running locally at http://localhost:5000"
+        
+        # Wait for application to start
+        sleep 10
+        
+        # Optional: Basic health check
+        curl -f http://localhost:5000 || echo "Health check failed, but continuing..."
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Push to Docker Hub
+      run: |
+        docker tag ${{ env.DOCKER_IMAGE }} ${{ env.DOCKER_HUB_REPO }}:latest
+        docker push ${{ env.DOCKER_HUB_REPO }}:latest
+
+    - name: Set up Minikube
+      uses: medyagh/setup-minikube@master
+      with:
+        minikube-version: 'latest'
+        driver: docker
+
+    - name: Deploy to Minikube
+      run: |
+        # Wait for minikube to be ready
+        minikube status
+        
+        # Use minikube context
+        kubectl config use-context minikube
+        
+        # Apply deployment
+        kubectl apply -f deployment.yml
+        
+        # Wait for deployment to be ready
+        kubectl wait --for=condition=available --timeout=300s deployment/flask-app-deployment || true
+        
+        # Get service URL
+        minikube service flask-app-service --url || echo "Service URL not available yet"
+        
+        echo "Application is now deployed to Minikube Kubernetes"
+
+    - name: Cleanup Local Docker Container
+      if: always()
+      run: |
+        docker stop ${{ env.DOCKER_IMAGE }} || true
+        docker rm ${{ env.DOCKER_IMAGE }} || true
