@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 # Initialize Groq API settings
-api_key = os.environ.get("GROQ_API_KEY", "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")
+api_key = os.environ.get("GROQ_API_KEY", "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")
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 def generate_answer(question: str) -> str:
